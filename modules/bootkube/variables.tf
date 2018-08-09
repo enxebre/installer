@@ -161,3 +161,8 @@ variable "pull_secret_path" {
   description = "Path on disk to your Tectonic pull secret. Obtain this from your Tectonic Account: https://account.coreos.com."
   default     = "/Users/coreos/Desktop/config.json"
 }
+
+variable "worker_ign_config" {
+  description = "Worker ignition config"
+  type        = "string"
+}

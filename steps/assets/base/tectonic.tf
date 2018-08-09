@@ -50,6 +50,7 @@ module "bootkube" {
   service_account_private_key_pem = "${local.service_account_private_key_pem}"
 
   etcd_endpoints = "${data.template_file.etcd_hostname_list.*.rendered}"
+  worker_ign_config = "${file("worker.ign")}"
 }
 
 module "tectonic" {

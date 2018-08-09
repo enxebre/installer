@@ -16,6 +16,7 @@ variable "manifest_names" {
     "tectonic-network-operator.yaml",
     "tectonic-node-controller-operator.yaml",
     "tnc-tls-secret.yaml",
+    "ign-config.yaml",
   ]
 }
 
@@ -59,6 +60,8 @@ data "template_file" "manifest_file_list" {
 
     tnc_tls_cert = "${base64encode(var.tnc_cert_pem)}"
     tnc_tls_key  = "${base64encode(var.tnc_key_pem)}"
+
+    worker_ign_config = "${jsonencode(var.worker_ign_config)}"
   }
 }
 
