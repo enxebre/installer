@@ -17,6 +17,9 @@ variable "manifest_names" {
     "tectonic-node-controller-operator.yaml",
     "tnc-tls-secret.yaml",
     "ign-config.yaml",
+    "app-version-mao.yaml",
+    "mao-config.yaml",
+    "machine-api-operator.yaml",
   ]
 }
 
@@ -62,6 +65,10 @@ data "template_file" "manifest_file_list" {
     tnc_tls_key  = "${base64encode(var.tnc_key_pem)}"
 
     worker_ign_config = "${jsonencode(var.worker_ign_config)}"
+    vpc_name          = "${var.cluster_name}.${var.base_domain}"
+    cluster_name      = "${var.cluster_name}"
+    cluster_domain    = "${var.base_domain}"
+    ssh_key           = "${var.ssh_key}"
   }
 }
 

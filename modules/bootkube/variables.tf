@@ -166,3 +166,11 @@ variable "worker_ign_config" {
   description = "Worker ignition config"
   type        = "string"
 }
+
+variable "base_domain" {
+  type = "string"
+}
+
+variable "ssh_key" {
+  type = "string"
+}

@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/openshift/installer/installer/pkg/config-generator"
+	"github.com/openshift/installer/installer/pkg/config"
 )
 
 // InstallFullWorkflow creates new instances of the 'install' workflow,
@@ -19,8 +20,8 @@ func InstallFullWorkflow(clusterDir string) Workflow {
 			readClusterConfigStep,
 			generateTLSConfigStep,
 			generateClusterConfigMaps,
-			installAssetsStep,
 			generateIgnConfigStep,
+			installAssetsStep,
 			installTopologyStep,
 			installTNCCNAMEStep,
 			installBootstrapStep,
@@ -52,8 +53,8 @@ func InstallAssetsWorkflow(clusterDir string) Workflow {
 		steps: []step{
 			refreshConfigStep,
 			generateClusterConfigMaps,
-			installAssetsStep,
 			generateIgnConfigStep,
+			installAssetsStep,
 		},
 	}
 }
@@ -129,6 +130,9 @@ func installJoinMastersStep(m *metadata) error {
 }
 
 func installJoinWorkersStep(m *metadata) error {
+	if m.cluster.Platform == config.PlatformAWS {
+		return nil
+	}
 	return runInstallStep(m, joinWorkersStep)
 }
 

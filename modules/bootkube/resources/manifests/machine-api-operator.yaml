@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: machine-api-operator
-        image: quay.io/alberto_lamela/machine-api-operator:a661677 # TODO: move this to openshift org
+        image: quay.io/alberto_lamela/machine-api-operator:mvp # TODO: move this to openshift org
         command:
         - "/machine-api-operator"
         resources:

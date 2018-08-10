@@ -11,3 +11,8 @@ variable "cloud_provider" {
 variable "ingress_kind" {
   type = "string"
 }
+
+variable "ssh_key" {
+  type    = "string"
+  default = ""
+}
