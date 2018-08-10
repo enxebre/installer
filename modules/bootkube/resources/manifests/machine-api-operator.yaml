@@ -1,0 +1,53 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: machine-api-operator
+  namespace: kube-system
+  labels:
+    k8s-app: machine-api-operator
+    managed-by-channel-operator: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: machine-api-operator
+  template:
+    metadata:
+      labels:
+        k8s-app: machine-api-operator
+        tectonic-app-version-name: machine-api
+    spec:
+      containers:
+      - name: machine-api-operator
+        image: quay.io/alberto_lamela/machine-api-operator:a661677 # TODO: move this to openshift org
+        command:
+        - "/machine-api-operator"
+        resources:
+          limits:
+            cpu: 20m
+            memory: 50Mi
+          requests:
+            cpu: 20m
+            memory: 50Mi
+        volumeMounts:
+        - name: mao-config
+          mountPath: /etc/mao-config
+      imagePullSecrets:
+      - name: coreos-pull-secret
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
+      restartPolicy: Always
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+      tolerations:
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+        effect: "NoSchedule"
+      volumes:
+      - name: mao-config
+        configMap:
+          name: mao-config-v1
+          items:
+          - key: mao-config
+            path: config
