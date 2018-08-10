@@ -35,6 +35,7 @@ module assets_base {
   tectonic_update_channel          = "${var.tectonic_update_channel}"
   tectonic_versions                = "${var.tectonic_versions}"
   ssh_key                          = "${var.tectonic_aws_ssh_key}"
+  region                           = "${var.tectonic_aws_region}"
 }
 
 # Removing assets is platform-specific

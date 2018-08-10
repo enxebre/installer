@@ -174,3 +174,7 @@ variable "base_domain" {
 variable "ssh_key" {
   type = "string"
 }
+
+variable "region" {
+  type = "string"
+}

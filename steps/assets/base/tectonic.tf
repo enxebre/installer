@@ -54,6 +54,7 @@ module "bootkube" {
   worker_ign_config = "${file("worker.ign")}"
   base_domain       = "${var.tectonic_base_domain}"
   ssh_key           = "${var.ssh_key}"
+  region            = "${var.region}"
 }
 
 module "tectonic" {
