@@ -21,3 +21,8 @@ variable "region" {
   type    = "string"
   default = ""
 }
+
+variable "image" {
+  type    = "string"
+  default = ""
+}

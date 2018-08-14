@@ -9,6 +9,14 @@ module "defaults" {
   etcd_count = "${var.tectonic_etcd_count}"
 }
 
+module "ami" {
+  source = "../../../modules/aws/ami"
+
+  region          = "${var.tectonic_aws_region}"
+  release_channel = "${var.tectonic_container_linux_channel}"
+  release_version = "${var.tectonic_container_linux_version}"
+}
+
 module assets_base {
   source = "../base"
 
@@ -36,6 +44,7 @@ module assets_base {
   tectonic_versions                = "${var.tectonic_versions}"
   ssh_key                          = "${var.tectonic_aws_ssh_key}"
   region                           = "${var.tectonic_aws_region}"
+  image                            = "${coalesce(var.tectonic_aws_ec2_ami_override, module.ami.id)}"
 }
 
 # Removing assets is platform-specific

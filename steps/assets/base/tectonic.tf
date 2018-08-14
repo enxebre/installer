@@ -55,6 +55,7 @@ module "bootkube" {
   base_domain       = "${var.tectonic_base_domain}"
   ssh_key           = "${var.ssh_key}"
   region            = "${var.region}"
+  image             = "${var.image}"
 }
 
 module "tectonic" {

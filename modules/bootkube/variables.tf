@@ -178,3 +178,7 @@ variable "ssh_key" {
 variable "region" {
   type = "string"
 }
+
+variable "image" {
+  type = "string"
+}

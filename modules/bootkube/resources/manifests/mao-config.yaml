@@ -8,6 +8,7 @@ data:
     clusterName: ${cluster_name}
     clusterDomain: ${cluster_domain}
     region: ${region}
+    image: ${image}
 metadata:
   name: mao-config-v1
   namespace: kube-system

@@ -70,6 +70,7 @@ data "template_file" "manifest_file_list" {
     cluster_domain    = "${var.base_domain}"
     ssh_key           = "${var.ssh_key}"
     region            = "${var.region}"
+    image             = "${var.image}"
   }
 }
 
