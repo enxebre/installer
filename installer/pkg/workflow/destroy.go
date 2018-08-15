@@ -56,7 +56,11 @@ func destroyTopologyStep(m *metadata) error {
 
 func destroyJoinWorkersStep(m *metadata) error {
 	if m.cluster.Platform == config.PlatformAWS {
-		return deleteWorkerMachineSet(filepath.Join(m.clusterDir, kubeconfigPath))
+		// we don't want to return error here as for cases
+		// where the api is not available we want the destroy process to continue
+		deleteWorkerMachineSet(filepath.Join(m.clusterDir, kubeconfigPath))
+		return nil
+
 	}
 	return runDestroyStep(m, joinWorkersStep)
 }
