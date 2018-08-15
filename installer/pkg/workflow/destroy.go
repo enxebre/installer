@@ -1,5 +1,20 @@
 package workflow
 
+import (
+	"fmt"
+
+	"path/filepath"
+
+	"github.com/openshift/installer/installer/pkg/config"
+	"k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/tools/clientcmd"
+	"sigs.k8s.io/cluster-api/pkg/client/clientset_generated/clientset"
+)
+
+const (
+	kubeconfigPath = "generated/auth/kubeconfig"
+)
+
 // DestroyWorkflow creates new instances of the 'destroy' workflow,
 // responsible for running the actions required to remove resources
 // of an existing cluster and clean up any remaining artefacts.
@@ -8,8 +23,8 @@ func DestroyWorkflow(clusterDir string) Workflow {
 		metadata: metadata{clusterDir: clusterDir},
 		steps: []step{
 			refreshConfigStep,
-			destroyJoinMastersStep,
 			destroyJoinWorkersStep,
+			destroyJoinMastersStep,
 			destroyEtcdStep,
 			destroyBootstrapStep,
 			destroyTNCDNSStep,
@@ -40,7 +55,28 @@ func destroyTopologyStep(m *metadata) error {
 }
 
 func destroyJoinWorkersStep(m *metadata) error {
+	if m.cluster.Platform == config.PlatformAWS {
+		return deleteWorkerMachineSet(filepath.Join(m.clusterDir, kubeconfigPath))
+	}
 	return runDestroyStep(m, joinWorkersStep)
+}
+
+func deleteWorkerMachineSet(kubeconfig string) error {
+	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
+	if err != nil {
+		return fmt.Errorf("failed building kube config for machineset: %v", err)
+	}
+
+	client, err := clientset.NewForConfig(config)
+	if err != nil {
+		return fmt.Errorf("failed building kube client for machineset: %v", err)
+	}
+
+	err = client.ClusterV1alpha1().MachineSets("test").Delete("worker", &v1.DeleteOptions{})
+	if err != nil {
+		return fmt.Errorf("failed deleting machineset: %v", err)
+	}
+	return nil
 }
 
 func destroyJoinMastersStep(m *metadata) error {
