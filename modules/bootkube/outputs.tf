@@ -24,6 +24,7 @@ output "ignition_file_id_list" {
       data.ignition_file.bootkube_sh.id,
       data.ignition_file.kubeconfig.id,
       data.ignition_file.kubeconfig-kubelet.id,
+      data.ignition_file.mao_config.id,
     ),
     data.ignition_file.manifest_file_list.*.id,
   ))}"]

@@ -23,4 +23,33 @@ module assets_base {
   tectonic_service_cidr            = "${var.tectonic_service_cidr}"
   tectonic_update_channel          = "${var.tectonic_update_channel}"
   tectonic_versions                = "${var.tectonic_versions}"
+  aws_region                       = "${var.tectonic_aws_region}"
+  aws_az                           = "${data.aws_availability_zones.azs.names[0]}"
+  aws_ami                          = "${coalesce(var.tectonic_aws_ec2_ami_override, module.ami.id)}"
+  aws_worker_ign_config            = "${file("worker.ign")}"
+  replicas                         = "${var.tectonic_worker_count}"
+  mao_provider                     = "aws"
+}
+
+provider "aws" {
+  region  = "${var.tectonic_aws_region}"
+  profile = "${var.tectonic_aws_profile}"
+  version = "1.8.0"
+
+  assume_role {
+    role_arn     = "${var.tectonic_aws_installer_role}"
+    session_name = "TECTONIC_INSTALLER_${var.tectonic_cluster_name}"
+  }
+}
+
+// TODO(enxebre): consider to deploy machineSet per az
+// https://github.com/kubernetes-sigs/cluster-api/issues/46
+data "aws_availability_zones" "azs" {}
+
+module "ami" {
+  source = "../../../modules/aws/ami"
+
+  region          = "${var.tectonic_aws_region}"
+  release_channel = "${var.tectonic_container_linux_channel}"
+  release_version = "${var.tectonic_container_linux_version}"
 }

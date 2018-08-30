@@ -23,4 +23,6 @@ module assets_base {
   tectonic_service_cidr            = "${var.tectonic_service_cidr}"
   tectonic_update_channel          = "${var.tectonic_update_channel}"
   tectonic_versions                = "${var.tectonic_versions}"
+  libvirt_uri                      = "${var.tectonic_libvirt_uri}"
+  mao_provider                     = "aws"
 }

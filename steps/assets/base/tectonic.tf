@@ -50,6 +50,15 @@ module "bootkube" {
   service_account_private_key_pem = "${local.service_account_private_key_pem}"
 
   etcd_endpoints = "${data.template_file.etcd_hostname_list.*.rendered}"
+
+  aws_region        = "${var.aws_region}"
+  aws_az            = "${var.aws_az}"
+  aws_ami           = "${var.aws_ami}"
+  worker_ign_config = "${var.aws_worker_ign_config}"
+  replicas          = "${var.replicas}"
+  cluster_id        = "${var.tectonic_cluster_id}"
+  libvirt_uri       = "${var.libvirt_uri}"
+  mao_provider      = "${var.mao_provider}"
 }
 
 module "tectonic" {

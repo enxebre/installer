@@ -7,3 +7,38 @@ variable "cloud_provider" {
 variable "ingress_kind" {
   type = "string"
 }
+
+# machine api operator config
+variable "aws_region" {
+  type    = "string"
+  default = ""
+}
+
+variable "aws_az" {
+  type    = "string"
+  default = ""
+}
+
+variable "aws_ami" {
+  type    = "string"
+  default = ""
+}
+
+variable "aws_worker_ign_config" {
+  type    = "string"
+  default = ""
+}
+
+variable "replicas" {
+  type    = "string"
+  default = ""
+}
+
+variable "libvirt_uri" {
+  type    = "string"
+  default = ""
+}
+
+variable "mao_provider" {
+  type = "string"
+}

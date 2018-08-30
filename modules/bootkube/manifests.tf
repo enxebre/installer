@@ -16,6 +16,9 @@ variable "manifest_names" {
     "tectonic-network-operator.yaml",
     "tectonic-node-controller-operator.yaml",
     "tnc-tls-secret.yaml",
+    "app-version-mao.yaml",
+    "machine-api-operator.yaml",
+    "ign-config.yaml",
   ]
 }
 
@@ -59,6 +62,8 @@ data "template_file" "manifest_file_list" {
 
     tnc_tls_cert = "${base64encode(var.tnc_cert_pem)}"
     tnc_tls_key  = "${base64encode(var.tnc_key_pem)}"
+
+    worker_ign_config = "${base64encode(var.worker_ign_config)}"
   }
 }
 
@@ -82,4 +87,39 @@ resource "local_file" "manifest_files" {
   count    = "${length(var.manifest_names)}"
   filename = "./generated/manifests/${var.manifest_names[count.index]}"
   content  = "${data.template_file.manifest_file_list.*.rendered[count.index]}"
+}
+
+# mao config
+# Self-hosted manifests (resources/generated/manifests/)
+data "template_file" "mao_config" {
+  template = "${file("${path.module}/resources/manifests/mao-config-${var.mao_provider}.yaml")}"
+
+  vars {
+    replicas     = "${var.replicas}"
+    cluster_name = "${var.cluster_name}"
+
+    aws_region        = "${var.aws_region}"
+    aws_az            = "${var.aws_az}"
+    aws_ami           = "${var.aws_ami}"
+    cluster_id        = "${var.cluster_id}"
+    worker_ign_config = "${base64encode(var.worker_ign_config)}"
+
+    libvirt_uri = "${var.libvirt_uri}"
+  }
+}
+
+data "ignition_file" "mao_config" {
+  filesystem = "root"
+  mode       = "0644"
+
+  path = "/opt/tectonic/manifests/mao-config.yaml"
+
+  content {
+    content = "${data.template_file.mao_config.rendered}"
+  }
+}
+
+resource "local_file" "mao_config" {
+  filename = "./generated/manifests/mao-config.yaml"
+  content  = "${data.template_file.mao_config.rendered}"
 }

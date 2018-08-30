@@ -19,8 +19,8 @@ func InstallFullWorkflow(clusterDir string) Workflow {
 			readClusterConfigStep,
 			generateTLSConfigStep,
 			generateClusterConfigMaps,
-			installAssetsStep,
 			generateIgnConfigStep,
+			installAssetsStep,
 			installTopologyStep,
 			installBootstrapStep,
 			installJoinMastersStep,
@@ -49,8 +49,8 @@ func InstallAssetsWorkflow(clusterDir string) Workflow {
 		steps: []step{
 			refreshConfigStep,
 			generateClusterConfigMaps,
-			installAssetsStep,
 			generateIgnConfigStep,
+			installAssetsStep,
 		},
 	}
 }
@@ -108,7 +108,7 @@ func installJoinMastersStep(m *metadata) error {
 }
 
 func installJoinWorkersStep(m *metadata) error {
-	return runInstallStep(m, joinWorkersStep)
+	return nil
 }
 
 func runInstallStep(m *metadata, step string, extraArgs ...string) error {

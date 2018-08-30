@@ -1,0 +1,14 @@
+apiVersion: v1
+data:
+  mao-config: |
+    apiVersion: v1
+    kind: machineAPIOperatorConfig
+    provider: libvirt
+    libvirt:
+      uri: ${libvirt_uri}
+      replicas: ${replicas}
+      clusterName: ${cluster_name}
+metadata:
+  name: mao-config-v1
+  namespace: kube-system
+kind: ConfigMap

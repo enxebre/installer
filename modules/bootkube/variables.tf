@@ -161,3 +161,46 @@ variable "pull_secret_path" {
   description = "Path on disk to your Tectonic pull secret. Obtain this from your Tectonic Account: https://account.coreos.com."
   default     = "/Users/coreos/Desktop/config.json"
 }
+
+# machine api operator config
+variable "aws_region" {
+  type    = "string"
+  default = ""
+}
+
+variable "aws_az" {
+  type    = "string"
+  default = ""
+}
+
+variable "aws_ami" {
+  type    = "string"
+  default = ""
+}
+
+variable "replicas" {
+  type    = "string"
+  default = ""
+}
+
+variable "cluster_id" {
+  type    = "string"
+  default = ""
+}
+
+variable "worker_ign_config" {
+  description = "Worker ignition config"
+  type        = "string"
+  default     = ""
+}
+
+variable "libvirt_uri" {
+  description = "Worker ignition config"
+  type        = "string"
+  default     = ""
+}
+
+variable "mao_provider" {
+  description = "Worker ignition config"
+  type        = "string"
+}

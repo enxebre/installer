@@ -1,0 +1,17 @@
+apiVersion: v1
+data:
+  mao-config: |
+    apiVersion: v1
+    kind: machineAPIOperatorConfig
+    provider: aws
+    aws:
+      clusterName: ${cluster_name}
+      clusterID: ${cluster_id}
+      image: ${aws_ami}
+      region: ${aws_region}
+      availabilityZone: ${aws_az}
+      replicas: ${replicas}
+metadata:
+  name: mao-config-v1
+  namespace: kube-system
+kind: ConfigMap

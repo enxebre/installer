@@ -73,3 +73,8 @@ data "libvirt_network_dns_host_template" "workers" {
 
   hostname = "${var.tectonic_cluster_name}"
 }
+
+resource "libvirt_ignition" "worker" {
+  name    = "worker.ign"
+  content = "${file("${path.cwd}/${var.tectonic_ignition_worker}")}"
+}
