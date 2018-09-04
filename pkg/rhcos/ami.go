@@ -14,5 +14,5 @@ func AMI(channel, region string) (ami string, err error) {
 		return "", fmt.Errorf("region %q is not yet supported", region)
 	}
 
-	return "ami-06d864b4154214132", nil
+	return "ami-07307c397daf4d02e", nil
 }

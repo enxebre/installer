@@ -78,7 +78,7 @@ func generateClusterConfigMaps(m *metadata) error {
 		return err
 	}
 
-	kubeSystem, err := configGenerator.KubeSystem()
+	kubeSystem, err := configGenerator.KubeSystem(m.clusterDir)
 	if err != nil {
 		return err
 	}

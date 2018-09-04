@@ -3,6 +3,7 @@ variable "manifest_names" {
     "01-tectonic-namespace.yaml",
     "02-ingress-namespace.yaml",
     "03-openshift-web-console-namespace.yaml",
+    "04-openshift-cluster-api-namespace.yaml",
     "app-version-kind.yaml",
     "app-version-tectonic-network.yaml",
     "app-version-tnc.yaml",
@@ -11,11 +12,14 @@ variable "manifest_names" {
     "kube-controller-manager-secret.yaml",
     "node-config-kind.yaml",
     "openshift-apiserver-secret.yaml",
-    "cluster-apiserver-secret.yaml",
+    "cluster-apiserver-certs.yaml",
     "pull.json",
     "tectonic-network-operator.yaml",
     "tectonic-node-controller-operator.yaml",
     "tnc-tls-secret.yaml",
+    "app-version-mao.yaml",
+    "machine-api-operator.yaml",
+    "ign-config.yaml",
   ]
 }
 
@@ -59,6 +63,8 @@ data "template_file" "manifest_file_list" {
 
     tnc_tls_cert = "${base64encode(var.tnc_cert_pem)}"
     tnc_tls_key  = "${base64encode(var.tnc_key_pem)}"
+
+    worker_ign_config = "${base64encode(var.worker_ign_config)}"
   }
 }
 
