@@ -81,6 +81,7 @@ type libvirtConfig struct {
 	ClusterName string `json:"clusterName"`
 	URI         string `json:"uri"`
 	NetworkName string `json:"networkName"`
+	IPRange     string `json:"ipRange"`
 	Replicas    int    `json:"replicas"`
 }
 
@@ -139,6 +140,7 @@ func (c *ConfigGenerator) maoConfig(clusterDir string) (*maoOperatorConfig, erro
 			ClusterName: c.Name,
 			URI:         c.Libvirt.URI,
 			NetworkName: c.Libvirt.Network.Name,
+			IPRange:     c.Libvirt.Network.IPRange,
 			Replicas:    c.NodeCount(c.Worker.NodePools),
 		}
 
