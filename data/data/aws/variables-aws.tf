@@ -20,25 +20,25 @@ EOF
   default = {}
 }
 
-variable "aws_bootstrap_instance_type" {
-  type        = string
-  description = "Instance type for the bootstrap node. Example: `m4.large`."
-}
+//variable "aws_bootstrap_instance_type" {
+//  type        = string
+//  description = "Instance type for the bootstrap node. Example: `m4.large`."
+//}
 
-variable "aws_master_instance_type" {
-  type        = string
-  description = "Instance type for the master node(s). Example: `m4.large`."
-}
+//variable "aws_master_instance_type" {
+//  type        = string
+//  description = "Instance type for the master node(s). Example: `m4.large`."
+//}
+//
+//variable "aws_ami" {
+//  type        = string
+//  description = "AMI for all nodes.  An encrypted copy of this AMI will be used.  Example: `ami-foobar123`."
+//}
 
-variable "aws_ami" {
-  type        = string
-  description = "AMI for all nodes.  An encrypted copy of this AMI will be used.  Example: `ami-foobar123`."
-}
-
-variable "aws_ami_region" {
-  type        = string
-  description = "Region for the AMI for all nodes.  An encrypted copy of this AMI will be used.  Example: `ami-foobar123`."
-}
+//variable "aws_ami_region" {
+//  type        = string
+//  description = "Region for the AMI for all nodes.  An encrypted copy of this AMI will be used.  Example: `ami-foobar123`."
+//}
 
 variable "aws_extra_tags" {
   type = map(string)
@@ -52,25 +52,25 @@ EOF
   default = {}
 }
 
-variable "aws_master_root_volume_type" {
-  type = string
-  description = "The type of volume for the root block device of master nodes."
-}
+//variable "aws_master_root_volume_type" {
+//  type = string
+//  description = "The type of volume for the root block device of master nodes."
+//}
 
-variable "aws_master_root_volume_size" {
-  type = string
-  description = "The size of the volume in gigabytes for the root block device of master nodes."
-}
+//variable "aws_master_root_volume_size" {
+//  type = string
+//  description = "The size of the volume in gigabytes for the root block device of master nodes."
+//}
 
-variable "aws_master_root_volume_iops" {
-  type = string
-
-  description = <<EOF
-The amount of provisioned IOPS for the root block device of master nodes.
-Ignored if the volume type is not io1.
-EOF
-
-}
+//variable "aws_master_root_volume_iops" {
+//  type = string
+//
+//  description = <<EOF
+//The amount of provisioned IOPS for the root block device of master nodes.
+//Ignored if the volume type is not io1.
+//EOF
+//
+//}
 
 variable "aws_master_root_volume_encrypted" {
   type = bool
@@ -79,7 +79,7 @@ variable "aws_master_root_volume_encrypted" {
 Indicates whether the root EBS volume for master is encrypted. Encrypted Amazon EBS volumes
 may only be attached to machines that support Amazon EBS encryption.
 EOF
-
+  default = false
 }
 
 variable "aws_master_root_volume_kms_key_id" {
@@ -96,16 +96,27 @@ EOF
 variable "aws_region" {
   type        = string
   description = "The target AWS region for the cluster."
+  default = "us-east-2"
 }
 
 variable "aws_master_availability_zones" {
   type        = list(string)
   description = "The availability zones in which to create the masters. The length of this list must match master_count."
+  default = [
+    "us-east-2a",
+    "us-east-2b",
+    "us-east-2c"
+  ]
 }
 
 variable "aws_worker_availability_zones" {
   type        = list(string)
   description = "The availability zones to provision for workers.  Worker instances are created by the machine-API operator, but this variable controls their supporting infrastructure (subnets, routing, etc.)."
+  default = [
+    "us-east-2a",
+    "us-east-2b",
+    "us-east-2c"
+  ]
 }
 
 variable "aws_vpc" {
@@ -129,22 +140,29 @@ variable "aws_private_subnets" {
 variable "aws_publish_strategy" {
   type        = string
   description = "The cluster publishing strategy, either Internal or External"
+  default = "External"
 }
 
 variable "aws_skip_region_validation" {
   type        = bool
   description = "This decides if the AWS provider should validate if the region is known."
+  default = true
 }
 
-variable "aws_ignition_bucket" {
-  type        = string
-  description = "The S3 bucket where the ignition configuration is stored"
+variable "cluster_id" {
+  type    = string
+  default = "agl-tenant-cluster-5"
 }
 
-variable "aws_bootstrap_stub_ignition" {
-  type        = string
-  description = <<EOF
-The stub Ignition config that should be used to boot the bootstrap instance. This already points to the presigned URL for the s3 bucket
-specified in aws_ignition_bucket.
-EOF
-}
+//variable "aws_ignition_bucket" {
+//  type        = string
+//  description = "The S3 bucket where the ignition configuration is stored"
+//}
+
+//variable "aws_bootstrap_stub_ignition" {
+//  type        = string
+//  description = <<EOF
+//The stub Ignition config that should be used to boot the bootstrap instance. This already points to the presigned URL for the s3 bucket
+//specified in aws_ignition_bucket.
+//EOF
+//}
